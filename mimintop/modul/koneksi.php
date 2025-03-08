@@ -1,25 +1,27 @@
 <?php
 date_default_timezone_set("Asia/Jakarta");
 
+// Informasi website
 $nama_website = 'Nexus77';
 $alamat_website = 'https://webslots.up.railway.app'; // Sesuaikan dengan domain Railway
 $alamat_website_admin = 'https://webslots.up.railway.app/mimintop/';
 
 $qris_link = '';
 
-// Konfigurasi koneksi database menggunakan variabel dari Railway
-$host = "mysql.railway.internal";
-$username = "root";
-$password = "evObyMlvgjtPHPaGuqpZoBizwLedXJgr";
-$database = "railway";
-$port = 3306;
+// Ambil variabel dari Railway
+$host = getenv('MYSQLHOST') ?: "mysql.railway.internal";
+$username = getenv('MYSQLUSER') ?: "root";
+$password = getenv('MYSQLPASSWORD') ?: "evObyMlvgjtPHPaGuqpZoBizwLedXJgr"; // Bisa diganti dengan getenv()
+$database = getenv('MYSQLDATABASE') ?: "railway";
+$port = getenv('MYSQLPORT') ?: 3306;
 
+// Koneksi ke database
 $koneksi = mysqli_connect($host, $username, $password, $database, $port);
 
+// Cek koneksi
 if (!$koneksi) {
-    echo "Kesalahan: Tidak dapat terhubung ke database." . PHP_EOL;
-    echo "Kode Kesalahan: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Pesan Kesalahan: " . mysqli_connect_error() . PHP_EOL;
-    exit;
+    die("Kesalahan: Tidak dapat terhubung ke database.\nKode Kesalahan: " . mysqli_connect_errno() . "\nPesan Kesalahan: " . mysqli_connect_error());
+} else {
+    echo "Koneksi ke database berhasil!";
 }
 ?>
